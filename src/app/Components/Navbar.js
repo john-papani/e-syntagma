@@ -45,7 +45,7 @@ export default function Navbar() {
         >
           <button
             onClick={() => navigate("/about")}
-            className={`block py-2 md:py-0 text-base font-medium ${
+            className={`block py-2 md:py-0 text-base font-medium hover:cursor-pointer ${
               isActive("/about")
                 ? "text-blue-700"
                 : "text-gray-700 hover:text-blue-600"
