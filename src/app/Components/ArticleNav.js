@@ -1,12 +1,22 @@
 "use client"; // if using app/ structure, otherwise not needed
 
 import { useEffect, useState, useRef } from "react";
-import articles from "../../../public/syntagma.json"; // Adjust the path as necessary
+import articles from "../../../public/syntagma.json";
 
 export default function ArticleNav({ isSearching }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
   const itemRefs = useRef([]);
+
+  const [isVisible, setIsVisible] = useState(true);
+  const hasDisappearedRef = useRef(false); // track if it has already disappeared
+
+  useEffect(() => {
+    if (isSearching && !hasDisappearedRef.current) {
+      setIsVisible(false); 
+      hasDisappearedRef.current = true; // block future changes
+    }
+  }, [isSearching]);
 
   // Scroll handler to update active article index based on scrollY
   useEffect(() => {
@@ -30,7 +40,6 @@ export default function ArticleNav({ isSearching }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Keep the active nav item visible with padding from the top
   useEffect(() => {
     const container = containerRef.current;
     const activeItem = itemRefs.current[activeIndex];
@@ -69,21 +78,29 @@ export default function ArticleNav({ isSearching }) {
   return (
     <aside
       ref={containerRef}
-      className="hidden md:block fixed left-0 top-1/2 -translate-y-1/2 ml-2 pt-2 rounded-2xl overflow-y-auto bg-white shadow w-[10%] h-[75vh]"
+      className={`
+    fixed left-0 top-1/2 -translate-y-1/2 ml-2 pt-2 rounded-2xl overflow-y-auto 
+    bg-white shadow w-[10%] h-[75vh] md:block
+    transition-all duration-500 ease-in-out
+    ${
+      isVisible
+        ? "opacity-100 translate-x-0"
+        : "opacity-0 -translate-x-full pointer-events-none"
+    }
+  `}
     >
       <div className="space-y-2">
-        {/* <h3 className="text-lg font-semibold mb-2 px-3">Άρθρα</h3> */}
         <ul className="space-y-1 px-2">
           {articles.map((article, i) => (
             <li key={i} ref={(el) => (itemRefs.current[i] = el)}>
               <button
                 onClick={() => scrollToArticle(i)}
                 className={`w-full text-left px-3 py-2 rounded-lg text-sm transition 
-                ${
-                  i === activeIndex && !isSearching
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-gray-800 hover:bg-gray-100"
-                }`}
+              ${
+                i === activeIndex
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-800 hover:bg-gray-100"
+              }`}
               >
                 <p className="font-bold">{article.title.split(" - ")[0]}</p>
                 <p>{article.title.split(" - ")[2]}</p>

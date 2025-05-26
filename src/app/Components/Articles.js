@@ -42,18 +42,14 @@ export default function Articles({ isSearching, setIsSearching }) {
           type="text"
           placeholder="Αναζήτηση άρθρων..."
           value={query}
-          disabled
+          // disabled
           onChange={(e) => {
             const value = e.target.value;
             setQuery(value);
             setIsSearching(value.trim() !== "");
           }}
-          className="w-full px-4 hover:cursor-not-allowed py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4  py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <p className="text-red-400 text-center italic">
-          {" "}
-          Προσωρινα μη διαθέσιμη η αναζήτηση!
-        </p>
       </div>
 
       {filteredArticles.length === 0 ? (
