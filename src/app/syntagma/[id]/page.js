@@ -1,27 +1,36 @@
 "use client";
-import React from "react";
-import articles from "../../../../public/syntagma.json"; // Adjust the path as necessary
+
+import React, { useRef } from "react";
+import articles from "../../../../public/syntagma.json"; // adjust path if needed
 
 function findArticleByNumber(articles, number) {
   return articles.filter((article) =>
     article.title.includes(`Άρθρο ${number}`)
   );
 }
+
+function parseArticleNumber(articleNumber) {
+  const match = articleNumber.match(/^(\d+)([a-zα-ω]?)$/i);
+  if (!match) return { number: NaN, suffix: "" };
+
+  const number = parseInt(match[1], 10);
+  const suffix = match[2] ? "A" : "";
+
+  return number + suffix;
+}
+
 function capitalizeArticleNumber(articleNumber) {
-  // Separate digits and letters
   const match = articleNumber.match(/^(\d+)([a-zα-ω]*)$/i);
-  if (!match) return articleNumber; // no match, return as is
+  if (!match) return articleNumber;
 
-  const digits = match[1]; // e.g. "5"
-  const letters = match[2]; // e.g. "α"
+  const digits = match[1];
+  const letters = match[2];
 
-  if (letters) {
-    return digits + letters.toUpperCase();
-  }
-  return digits;
+  return digits + (letters ? letters.toUpperCase() : "");
 }
 
 export default function ArticlePage({ params }) {
+  const pdfRef = useRef(null);
   const unwrappedParams = React.use(params);
   const id = unwrappedParams.id;
   const capitalId = capitalizeArticleNumber(decodeURIComponent(id)) || "";
@@ -44,24 +53,20 @@ export default function ArticlePage({ params }) {
         >
           Επιστροφή
         </button>
-        <button
-          onClick={() => alert("To pdf δεν είναι διαθέσιμο προς το παρόν")}
-          className="right-4 text-sm hover:bg-blue-500 hover:text-black font-semibold py-2 mb-3 px-4 rounded-lg shadow-md bg-black text-blue-300 transition duration-300"
-        >
-          Εκτύπωση σε PDF
-        </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 md:max-w-3xl mx-auto space-y-6">
-        {/* Title */}
+      <div
+        className="bg-white rounded-xl shadow-lg p-6 md:p-8 md:max-w-3xl mx-auto space-y-6"
+      >
         <h2 className="text-xl md:text-2xl font-bold text-gray-900 leading-snug">
           {article.title.split(" - ")[0]} — {article.title.split(" - ")[2]}
         </h2>
 
-        {/* Source Info */}
         <p className="text-sm md:text-base text-gray-500 space-x-2">
           <a
-            href={article.link}
+            href={`https://www.hellenicparliament.gr/Vouli-ton-Ellinon/To-Politevma/Syntagma/article-${parseArticleNumber(
+              capitalId
+            )}/`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"
@@ -71,7 +76,6 @@ export default function ArticlePage({ params }) {
           <span>• {article.date}</span>
         </p>
 
-        {/* Content */}
         <ul className="space-y-4 text-justify text-sm md:text-base text-gray-800">
           {article.content.map((paragraph, i) =>
             paragraph === "Καταργείται" ? (

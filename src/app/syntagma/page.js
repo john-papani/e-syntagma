@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Articles from "../Components/Articles";
 import ArticleNav from "../Components/ArticleNav";
 import ScrollToTop from "../Components/ScrollToTop";
@@ -9,7 +9,7 @@ export default function Home() {
     <div>
       <main className="min-h-screen p-6 relative flex">
         <ArticleNav isSearching={isSearching} />
-        <div className="flex-1 md:ml-64">
+        <div className="flex-1">
           <Articles isSearching={isSearching} setIsSearching={setIsSearching} />
           <ScrollToTop />
         </div>
