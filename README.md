@@ -8,6 +8,8 @@
 
 Το περιεχόμενο βασίζεται στο επίσημο κείμενο του Συντάγματος της Ελλάδας, όπως δημοσιεύεται από το Ελληνικό Κοινοβούλιο: [Επίσημο Σύνταγμα (PDF)](https://www.hellenicparliament.gr/UserFiles/f3c70a23-7696-49db-9148-f24dce6a27c8/FEK%20211-A-24-12-2019%20NEO%20SYNTAGMA.pdf)
 
+Τα δεδομένα εξάχθηκαν αυτόματα μέσω του αποθετηρίου scraping που αναπτύχθηκε για τον σκοπό αυτό: [syntagma-web-scraping](https://github.com/john-papani/syntagma-web-scraping)
+
 ---
 
 ## Χαρακτηριστικά
@@ -24,7 +26,7 @@
 
 1. Κλωνοποιήστε το αποθετήριο:
    ```
-   git clone https://github.com/yourusername/e-syntagma.git
+   git clone https://github.com/john-papani/e-syntagma
    ```
 
 
