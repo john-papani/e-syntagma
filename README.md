@@ -40,16 +40,12 @@
 
    ```bash
    npm install
-   # ή
-   yarn install
    ```
 
 4. Τρέξτε το τοπικό development server:
 
    ```bash
    npm run dev
-   # ή
-   yarn dev
    ```
 
 5. Ανοίξτε το πρόγραμμα περιήγησης στη διεύθυνση:
